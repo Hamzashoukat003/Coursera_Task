@@ -1,0 +1,75 @@
+USE [CourseraData]
+GO
+
+/****** Object:  StoredProcedure [dbo].[GetReport]    Script Date: 2/29/2024 2:16:29 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[GetReport]
+    @PinList NVARCHAR(MAX) = NULL,
+    @MinimumCredit INT = NULL,
+    @StartDate DATE = NULL,
+    @EndDate DATE = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Create a temporary table to store the filtered students
+    CREATE TABLE #FilteredStudents
+    (
+        PIN NVARCHAR(50)
+    );
+
+    -- Check if PIN list is provided, if not, select all students
+    IF @PinList IS NULL
+    BEGIN
+        INSERT INTO #FilteredStudents (PIN)
+        SELECT PIN FROM Students;
+    END
+    ELSE
+    BEGIN
+        -- Split the comma-separated PIN list into rows
+        DECLARE @PinTable TABLE (PIN NVARCHAR(50));
+        INSERT INTO @PinTable (PIN)
+        SELECT value FROM STRING_SPLIT(@PinList, ',');
+
+        -- Insert only the students with PINs provided in the input list
+        INSERT INTO #FilteredStudents (PIN)
+        SELECT PIN FROM @PinTable;
+    END
+
+    -- Filter students based on minimum credit and completion date range
+    SELECT 
+        s.PIN,
+        s.FirstName,
+        s.LastName,
+        c.name AS CourseName,
+        x.CompletionDate,
+        c.TotalTime,
+        c.Credit,
+        i.FirstName AS InstructorFirstName,
+        i.LastName AS InstructorLastName
+    FROM 
+        #FilteredStudents fs
+    INNER JOIN 
+        Students s ON fs.PIN = s.PIN
+    INNER JOIN 
+        StudentsCoursesXref x ON s.PIN = x.StudentPin
+    INNER JOIN 
+        Courses c ON x.CourseId = c.id
+    INNER JOIN 
+        Instructors i ON c.InstructorId = i.Id
+    WHERE 
+        (@MinimumCredit IS NULL OR (SELECT SUM(credit) FROM Courses WHERE id = x.CourseId) >= @MinimumCredit)
+        AND (@StartDate IS NULL OR x.CompletionDate >= @StartDate)
+        AND (@EndDate IS NULL OR x.CompletionDate <= @EndDate);
+
+    -- Drop the temporary table
+    DROP TABLE #FilteredStudents;
+END
+GO
+
+
