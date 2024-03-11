@@ -4,7 +4,6 @@ using Coursera_Task.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,11 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Coursera_Task.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20240301065807_IniticalCreate")]
-    partial class IniticalCreate
+    partial class MyDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,8 +30,8 @@ namespace Coursera_Task.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Credit")
-                        .HasColumnType("int");
+                    b.Property<byte>("Credit")
+                        .HasColumnType("tinyint");
 
                     b.Property<int>("InstructorId")
                         .HasColumnType("int");
@@ -47,8 +44,8 @@ namespace Coursera_Task.Migrations
                     b.Property<DateTime>("TimeCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TotalTime")
-                        .HasColumnType("int");
+                    b.Property<byte>("TotalTime")
+                        .HasColumnType("tinyint");
 
                     b.HasKey("Id");
 
@@ -81,67 +78,20 @@ namespace Coursera_Task.Migrations
                     b.ToTable("Instructors");
                 });
 
-            modelBuilder.Entity("Coursera_Task.Data.Models.Report", b =>
-                {
-                    b.Property<DateTime>("CompletionDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CourseName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Credit")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InstructorFirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InstructorLastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PIN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TotalTime")
-                        .HasColumnType("int");
-
-                    b.ToTable("Report", (string)null);
-                });
-
             modelBuilder.Entity("Coursera_Task.Data.Models.StudentCourseXref", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<DateTime?>("CompletionDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("StudentPin")
+                        .HasColumnType("nchar(10)");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
-                    b.Property<string>("StudentPin")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime?>("CompletionDate")
+                        .HasColumnType("datetime2");
 
-                    b.HasKey("ID");
+                    b.HasKey("StudentPin", "CourseId");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("StudentPin");
 
                     b.ToTable("StudentsCoursesXref");
                 });
@@ -150,7 +100,7 @@ namespace Coursera_Task.Migrations
                 {
                     b.Property<string>("PIN")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nchar(10)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -161,6 +111,9 @@ namespace Coursera_Task.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("TimeCreated")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PIN");
 

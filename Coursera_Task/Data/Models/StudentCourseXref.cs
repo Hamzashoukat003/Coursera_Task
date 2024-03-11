@@ -13,7 +13,6 @@ namespace Coursera_Task.Data.Models
 {
     public class StudentCourseXref
     {
-        public int ID { get; set; }
         public string StudentPin { get; set; }
         public int CourseId { get; set; }
         public DateTime? CompletionDate { get; set; }

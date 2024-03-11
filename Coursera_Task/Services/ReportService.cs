@@ -55,8 +55,8 @@ namespace Coursera_Task.Services
                                     InstructorFirstName = reader.GetString(reader.GetOrdinal("InstructorFirstName")),
                                     InstructorLastName = reader.GetString(reader.GetOrdinal("InstructorLastName")),
                                     CompletionDate = reader.GetDateTime(reader.GetOrdinal("CompletionDate")),
-                                    TotalTime = reader.GetInt32(reader.GetOrdinal("TotalTime")),
-                                    Credit = reader.GetInt32(reader.GetOrdinal("Credit"))
+                                    TotalTime = reader.GetByte(reader.GetOrdinal("TotalTime")),
+                                    Credit = reader.GetByte(reader.GetOrdinal("Credit"))
                                 });
                             }
                         }

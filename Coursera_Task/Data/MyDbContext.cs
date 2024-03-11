@@ -18,35 +18,31 @@ namespace Coursera_Task.Data
         public DbSet<Courses> Courses { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Students> Students { get; set; }
-        public DbQuery<Report> ReportResultsView { get; set; }
-        public DbQuery<Report> Report { get; set; }
         public IList<Report> GetReport(string pinList, int? minimumCredit, DateTime? startDate, DateTime? endDate)
         {
             var parameters = new[]
             {
-                new SqlParameter("@PinList", SqlDbType.NVarChar) { Value = pinList ?? (object)DBNull.Value },
-                new SqlParameter("@MinimumCredit", SqlDbType.Int) { Value = minimumCredit ?? (object)DBNull.Value },
+                new SqlParameter("@PinList", SqlDbType.NChar) { Value = pinList ?? (object)DBNull.Value },
+                new SqlParameter("@MinimumCredit", SqlDbType.TinyInt) { Value = minimumCredit ?? (object)DBNull.Value },
                 new SqlParameter("@StartDate", SqlDbType.Date) { Value = startDate ?? (object)DBNull.Value },
                 new SqlParameter("@EndDate", SqlDbType.Date) { Value = endDate ?? (object)DBNull.Value }
             };
             return new List<Report>();
         }
-            //return Report.FromSqlRaw("EXEC [dbo].[GetReport] @PinList, @MinimumCredit, @StartDate, @EndDate", parameters).ToList();
+        //return Report.FromSqlRaw("EXEC [dbo].[GetReport] @PinList, @MinimumCredit, @StartDate, @EndDate", parameters).ToList();
 
         public DbSet<StudentCourseXref> StudentsCoursesXref { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Report>()
-          .HasNoKey();
-            modelBuilder.Entity<Report>().ToTable("Report");
+          
 
             modelBuilder.Entity<Students>()
            .HasKey(s => s.PIN);
-        
+
 
             modelBuilder.Entity<Students>()
-           .Property(x => x.PIN)
+           .Property(x => x.PIN).HasColumnType("nchar(10)")
            .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Students>()
@@ -58,9 +54,9 @@ namespace Coursera_Task.Data
            .HasMaxLength(50);
 
             modelBuilder.Entity<StudentCourseXref>()
-       .HasKey(x => new { x.ID });
+                .Property(x => x.StudentPin).HasColumnType("nchar(10)");
+            modelBuilder.Entity<StudentCourseXref>().HasKey(x => new { x.StudentPin, x.CourseId });
 
-          
 
             modelBuilder.Entity<Courses>()
            .Property(x => x.Name)

@@ -19,8 +19,8 @@ namespace Coursera_Task.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     InstructorId = table.Column<int>(type: "int", nullable: false),
-                    TotalTime = table.Column<int>(type: "int", nullable: false),
-                    Credit = table.Column<int>(type: "int", nullable: false),
+                    TotalTime = table.Column<byte>(type: "tinyint", nullable: false),
+                    Credit = table.Column<byte>(type: "tinyint", nullable: false),
                     TimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -44,30 +44,13 @@ namespace Coursera_Task.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Report",
-                columns: table => new
-                {
-                    PIN = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CourseName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TotalTime = table.Column<int>(type: "int", nullable: false),
-                    Credit = table.Column<int>(type: "int", nullable: false),
-                    InstructorFirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InstructorLastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Students",
                 columns: table => new
                 {
-                    PIN = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PIN = table.Column<string>(type: "nchar(10)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TimeCreated = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,15 +75,13 @@ namespace Coursera_Task.Migrations
                 name: "StudentsCoursesXref",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentPin = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StudentPin = table.Column<string>(type: "nchar(10)", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentsCoursesXref", x => x.ID);
+                    table.PrimaryKey("PK_StudentsCoursesXref", x => new { x.StudentPin, x.CourseId });
                     table.ForeignKey(
                         name: "FK_StudentsCoursesXref_Courses_CourseId",
                         column: x => x.CourseId,
@@ -119,11 +100,6 @@ namespace Coursera_Task.Migrations
                 name: "IX_StudentsCoursesXref_CourseId",
                 table: "StudentsCoursesXref",
                 column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StudentsCoursesXref_StudentPin",
-                table: "StudentsCoursesXref",
-                column: "StudentPin");
         }
 
         /// <inheritdoc />
@@ -131,9 +107,6 @@ namespace Coursera_Task.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Instructors");
-
-            migrationBuilder.DropTable(
-                name: "Report");
 
             migrationBuilder.DropTable(
                 name: "StudentsCoursesXref");

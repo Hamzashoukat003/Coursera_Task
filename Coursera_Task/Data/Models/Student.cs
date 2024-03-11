@@ -12,6 +12,7 @@ namespace Coursera_Task.Data.Models
         public string PIN { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public DateTime TimeCreated { get; set; }
         public List<StudentCourseXref> CompletedCourses { get; set; }
     }
 }

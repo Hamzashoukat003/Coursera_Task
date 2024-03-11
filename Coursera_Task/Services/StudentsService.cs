@@ -29,6 +29,7 @@ namespace Coursera_Task.Services
                 PIN = student.PIN,
                 FirstName = student.FirstName,
                 LastName = student.LastName,
+                TimeCreated = student.TimeCreated,
                 CompletedCourses = student.CompletedCourses
                     .Where(course => course.StudentPin == student.PIN)
                     .Select(course => new StudentCourseViewModel
@@ -57,7 +58,10 @@ namespace Coursera_Task.Services
                 {
                     FirstName = newStudent.FirstName,
                     LastName = newStudent.LastName,
-                    PIN = GenerateStudentPin()
+                    TimeCreated = DateTime.Now,
+                    PIN = GenerateStudentPin().Trim(),
+                    
+                   // Console.WriteLine(GenerateStudentPin());
                 };
 
                 _context.Students.Add(student);
@@ -134,7 +138,8 @@ namespace Coursera_Task.Services
 
         private string GenerateStudentPin()
         {
-            return Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper();
+          return Guid.NewGuid().ToString("N").Replace("-", "").Substring(0, 10).ToUpper();
+            
         }
 
         public class NewStuWithCourse

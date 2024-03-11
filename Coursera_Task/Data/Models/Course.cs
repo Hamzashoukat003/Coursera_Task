@@ -11,8 +11,8 @@ namespace Coursera_Task.Data.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public int InstructorId { get; set; }
-        public int TotalTime { get; set; }
-        public int Credit { get; set; }
+        public byte TotalTime { get; set; }
+        public byte Credit { get; set; }
         public DateTime TimeCreated { get; set; }
     }
 }

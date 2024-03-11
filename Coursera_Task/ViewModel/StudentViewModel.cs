@@ -5,6 +5,7 @@
        public string PIN { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public DateTime TimeCreated { get; set; }
         public List<StudentCourseViewModel> CompletedCourses { get; set; }
     }
 

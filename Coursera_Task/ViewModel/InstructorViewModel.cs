@@ -1,4 +1,6 @@
-﻿namespace Coursera_Task.ViewModels
+﻿using Coursera_Task.Data.Models;
+
+namespace Coursera_Task.ViewModels
 {
     public class InstructorViewModel
     {
@@ -6,5 +8,6 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime TimeCreated { get; set; }
+        //public virtual ICollection<Courses> Courses { get; set; }
     }
 }
