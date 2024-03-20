@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Coursera_Task.Controllers
 {
    
-    [Route("api/[controller]")]
+    [Route("students")]
     [ApiController]
     public class StudentsController : BaseController
     {
@@ -46,7 +46,7 @@ namespace Coursera_Task.Controllers
         }
 
         [HttpPut("{pin}")]
-        public async Task<IActionResult> UpdateStudent(string pin, StudentViewModel student)
+        public async Task<IActionResult> UpdateStudent(string pin, StudentUpdateViewModel student)
         {
             await _studentsService.UpdateStudent(pin, student);
             return Ok();

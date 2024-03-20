@@ -56,7 +56,7 @@ namespace Coursera_Task.Services
                 InstructorId = courseViewModel.InstructorId,
                 TotalTime = courseViewModel.TotalTime,
                 Credit = courseViewModel.Credit,
-                TimeCreated = courseViewModel.TimeCreated
+                TimeCreated = DateTime.Now
             };
 
             _context.Courses.Add(courseEntity);

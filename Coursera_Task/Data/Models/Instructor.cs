@@ -12,6 +12,6 @@ namespace Coursera_Task.Data.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime TimeCreated { get; set; }
-       // public virtual ICollection<Courses> Courses { get; set; }
+        
     }
 }

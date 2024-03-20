@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Coursera_Task.Controllers
 {
 
-    [Route("api/[controller]")]
+    [Route("studentcoursesxref")]
     [ApiController]
     public class StudentsCoursesXrefController : BaseController
     {
@@ -43,8 +43,7 @@ namespace Coursera_Task.Controllers
             await _studentCourseService.AddStudentCourse(studentCourseViewModel);
             return Ok();
         }
-
-        [HttpPut("{studentId}/{courseId}")]
+        [HttpPut("students/{studentId}/courses/{courseId}")]
         public async Task<IActionResult> UpdateStudentCourse(string studentId, int courseId, StudentCourseViewModel updatedStudentCourseViewModel)
         {
             await _studentCourseService.UpdateStudentCourse(studentId, courseId, updatedStudentCourseViewModel);

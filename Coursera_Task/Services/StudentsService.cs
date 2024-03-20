@@ -60,8 +60,6 @@ namespace Coursera_Task.Services
                     LastName = newStudent.LastName,
                     TimeCreated = DateTime.Now,
                     PIN = GenerateStudentPin().Trim(),
-                    
-                   // Console.WriteLine(GenerateStudentPin());
                 };
 
                 _context.Students.Add(student);
@@ -78,32 +76,35 @@ namespace Coursera_Task.Services
             }
         }
 
-        public async Task UpdateStudent(string pin, StudentViewModel student)
+        public async Task UpdateStudent(string pin, StudentUpdateViewModel student)
         {
-            var existingStudent = await _context.Students.FindAsync(pin);
-
-            if (existingStudent == null)
-            {
-                return;
-            }
-
-            
-            existingStudent.FirstName = student.FirstName;
-            existingStudent.LastName = student.LastName;
-            // Update other properties as needed
-
             try
             {
+               var existingStudent = await _context.Students.FindAsync(pin);
+
+                if (existingStudent == null)
+                {
+                   return;
+                }
+
+                existingStudent.FirstName = student.FirstName;
+                existingStudent.LastName = student.LastName;
+               
+                existingStudent.PIN = pin;
+
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                
+                Console.WriteLine($"Error updating student: {ex.Message}");
                 throw;
             }
         }
 
-       
+
+
+
+
         private bool StudentExistsPut(string pin)
         {
             return _context.Students.Any(s => s.PIN == pin);

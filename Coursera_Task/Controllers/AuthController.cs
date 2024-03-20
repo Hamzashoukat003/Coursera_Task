@@ -1,5 +1,6 @@
 ﻿using Coursera_Task.Data;
 using Coursera_Task.Data.Models;
+using Coursera_Task.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using System.Text;
 
 namespace Coursera_Task.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -23,7 +24,7 @@ namespace Coursera_Task.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserRegistrationModel model)
+        public async Task<IActionResult> Register([FromBody] UserRegistrationViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -42,7 +43,7 @@ namespace Coursera_Task.Controllers
             {
                 Username = model.Username,
                 PasswordHash = passwordHash,
-              
+                Email = model.Email
             };
 
             _context.Users.Add(newUser);
@@ -55,7 +56,7 @@ namespace Coursera_Task.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserLoginModel model)
+        public async Task<IActionResult> Login([FromBody] UserLoginViewModel model)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == model.Username);
 

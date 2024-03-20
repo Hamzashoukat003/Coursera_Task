@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Coursera_Task.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("courses")]
     [ApiController]
 
     public class CoursesController : BaseController

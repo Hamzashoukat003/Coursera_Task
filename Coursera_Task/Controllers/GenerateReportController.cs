@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Coursera_Task.Controllers
 {
    
-    [Route("api/[controller]")]
+    [Route("generatereport")]
     [ApiController]
     public class ReportController : BaseController
     {
@@ -26,7 +26,7 @@ namespace Coursera_Task.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet("[action]")]
+        [HttpGet("report")]
         public async Task<IActionResult> GetReport(
             string? pinList,
             int? minimumCredit,

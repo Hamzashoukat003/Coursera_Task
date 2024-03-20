@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Coursera_Task.Data.Models
+namespace Coursera_Task.ViewModel
 {
-    public class UserLoginModel
+    public class UserLoginViewModel
     {
         [Required]
         public string Username { get; set; }

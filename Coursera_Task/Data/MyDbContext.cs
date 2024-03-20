@@ -68,6 +68,11 @@ namespace Coursera_Task.Data
             modelBuilder.Entity<Instructor>()
            .Property(x => x.LastName)
            .HasMaxLength(100);
+
+            modelBuilder.Entity<Courses>()
+                .HasOne(c => c.Instructor)
+                .WithMany() 
+                .HasForeignKey(c => c.InstructorId);
         }
     }
 }
